@@ -7,11 +7,11 @@ documentation tests can not be ran from the published `.crate` archive alone,
 if they depend on auxiliary data files that should not be shipped to downstream
 packages and end users.
 
-- [1](#what-this-library-is)
+- [1. What this library is](#what-this-library-is)
   - [1.1 How to apply](#how-to-apply)
   - [1.2 Testing with the reference implementation](#how-to-test-crates)
-  - [1.3 Testing without the binary](#how-to-test-without-this-binary)
-- [2](#details)
+  - [1.3 Testing without the binary](#how-to-test-without-the-binary)
+- [2. Details](#details)
 
 ## How to apply
 

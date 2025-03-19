@@ -5,7 +5,7 @@ description = "Fetch auxiliary test data when testing published crates"
 license = "MIT OR Apache-2.0 OR Zlib"
 edition = "2018"
 rust-version = "1.53"
-repository = "https://github.com/HeroicKatora/xtest-data"
+repository = "https://github.com/HeroicKatora/cargo-xtest-data"
 readme = "Readme.md"
 
 # As part of the self-test, do not make data files part of the crate archive.
