@@ -506,8 +506,7 @@ impl FileWaitLock {
 
 impl Drop for FileWaitLock {
     fn drop(&mut self) {
-        use fs2::FileExt;
-        if let Err(_) = self.lock.unlock() {
+        if let Err(_) = fs2::FileExt::unlock(&self.lock) {
             // Otherwise we'd block indefinitely in this process?
             std::process::abort();
         }
