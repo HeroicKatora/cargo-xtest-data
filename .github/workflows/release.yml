@@ -1,5 +1,5 @@
 name: Releases
-on: 
+on:
   push:
     tags:
     - 'v*'
@@ -9,15 +9,16 @@ jobs:
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Install Rust stable
-      uses: actions-rs/toolchain@v1
+      uses: mkroening/rust-toolchain-toml@main
+    - uses: Swatinem/rust-cache@v2
+      name: Cache the Rust build
       with:
-          toolchain: stable
-          override: true
+        save-if: false
     - name: Create test data
       run: >
-        mv "$(cargo run -p xtask -- package)" "xtest-data.tar.gz"
+        mv "$(cargo run -p cargo-xtest-data -- xtest-data package)" "xtest-data.tar.gz"
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "xtest-data.tar.gz"
