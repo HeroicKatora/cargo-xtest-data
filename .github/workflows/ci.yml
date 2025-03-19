@@ -15,6 +15,7 @@ jobs:
       name: Cache the Rust build
       with:
         save-if: ${{ github.ref == 'refs/heads/master' }}
+        cache-on-failure: true
     - name: test
       run: cargo run --bin cargo-xtest-data --features=bin-xtask -- xtest-data test
   rustfmt:
@@ -29,5 +30,6 @@ jobs:
       name: Cache the Rust build
       with:
         save-if: ${{ github.ref == 'refs/heads/master' }}
+        cache-on-failure: true
     - name: Run rustfmt check
       run: cargo fmt -- --check
