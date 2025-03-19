@@ -15,6 +15,7 @@ jobs:
     - uses: Swatinem/rust-cache@v2
       name: Cache the Rust build
       with:
+        shared-key: generic-jobs
         save-if: false
     - name: Create test data
       run: >
