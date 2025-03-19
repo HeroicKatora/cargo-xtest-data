@@ -12,7 +12,6 @@ readme = "Readme.md"
 # These are accessible in the integration tests by the library using itself.
 exclude = [".github", "tests/data.zip"]
 
-
 # See `Readme.md` on meaning.
 #
 # This pre-configured table ensures that other tools can read the information
@@ -22,7 +21,7 @@ exclude = [".github", "tests/data.zip"]
 # Note: the `xtask` will be parsing this, *NOT* the xtest-data crate itself.
 # We merely define some standard options.
 [package.metadata.xtest-data]
-# Method for archiving the pack data.
+# Method for bundling the data, i.e. git object packs.
 pack-archive = "tar:gz"
 # URL template from which to fetch packed file during testing.
 pack-artifact = "{repository}/releases/download/v{version}/xtest-data.tar.gz"
