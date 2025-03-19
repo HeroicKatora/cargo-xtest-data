@@ -2,7 +2,6 @@ use std::path::PathBuf;
 
 use clap::Parser;
 
-
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 #[command(rename_all = "kebab-case")]
@@ -10,7 +9,7 @@ pub enum CargoXtestData {
     XtestData {
         #[command(subcommand)]
         cmd: XtaskCommand,
-    }
+    },
 }
 
 #[derive(Parser, Debug)]
