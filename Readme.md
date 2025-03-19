@@ -60,23 +60,23 @@ cargo install xtest-data --features="bin-xtask"
 # test for developers
 cargo-xtest-data test <file-path-to-repo>
 # test for packager
-cargo-xtest-data crate-test <crate>
+cargo-xtest-data test-crate <crate>
 # prepare a test but delay its execution
-eval `cargo-xtest-data fetch-artifacts <crate>`
+eval `cargo-xtest-data fetch <crate>`
 ```
 
 For an offline use, archives can be handled as files:
 
 ```bash
 # Prepare .crate and .xtest-data archives:
-cargo-xtest-data package
+cargo-xtest-data pack
 # on stdout, e.g.: ./target/xtest-data/xtest-data-1.0.0-beta.3.xtest-data
 
 # < Upload/download/exchange archives >
 
 # After downloading both files again:
 eval `cargo-xtest-data \
-  fetch-artifacts xtest-data-1.0.0-beta.3.crate \
+  fetch xtest-data-1.0.0-beta.3.crate \
   --pack-artifact xtest-data-1.0.0-beta.3.xtest-data`
 # Now proceed with regular testing
 ```

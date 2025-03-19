@@ -40,7 +40,7 @@ fn main() -> Result<(), LocatedError> {
             println!("{}", output.display());
             Ok(())
         }
-        XtaskCommand::Package { path, allow_dirty } => {
+        XtaskCommand::Pack { path, allow_dirty } => {
             let source = target::LocalSource::with_simple_repository(&path).with_dirty(allow_dirty);
             let target = target::Target::from_dir(&source)?;
 
@@ -55,7 +55,7 @@ fn main() -> Result<(), LocatedError> {
             println!("{}", output.display());
             Ok(())
         }
-        XtaskCommand::CrateTest {
+        XtaskCommand::TestCrate {
             path,
             pack_artifact,
         } => {
@@ -87,7 +87,7 @@ fn main() -> Result<(), LocatedError> {
             eprintln!("Test successful: {:?}", test);
             Ok(())
         }
-        XtaskCommand::FetchArtifacts {
+        XtaskCommand::Fetch {
             path,
             pack_artifact,
             output,
