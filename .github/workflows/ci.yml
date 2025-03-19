@@ -10,16 +10,26 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install chosen toolchain
-      uses: mkroening/rust-toolchain-toml@v1.2.0
+      uses: mkroening/rust-toolchain-toml@main
+    - uses: Swatinem/rust-cache@v2
+      name: Cache the Rust build
+      with:
+        save-if: ${{ github.ref == 'refs/heads/master' }}
+        cache-on-failure: true
     - name: test
-      run: cargo run --bin xtask --features=bin-xtask -- test
+      run: cargo run --bin cargo-xtest-data --features=bin-xtask -- xtest-data test
   rustfmt:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Install chosen toolchain
-      uses: mkroening/rust-toolchain-toml@v1.2.0
+      uses: mkroening/rust-toolchain-toml@main
       with:
         toolchain-file: ".github/rust-toolchain.toml"
+    - uses: Swatinem/rust-cache@v2
+      name: Cache the Rust build
+      with:
+        save-if: ${{ github.ref == 'refs/heads/master' }}
+        cache-on-failure: true
     - name: Run rustfmt check
       run: cargo fmt -- --check

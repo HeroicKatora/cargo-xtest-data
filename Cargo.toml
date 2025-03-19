@@ -1,6 +1,6 @@
 [package]
 name = "xtest-data"
-version = "1.0.0-beta.5"
+version = "1.0.0-beta.6"
 description = "Fetch auxiliary test data when testing published crates"
 license = "MIT OR Apache-2.0 OR Zlib"
 edition = "2018"
@@ -12,6 +12,29 @@ readme = "Readme.md"
 # These are accessible in the integration tests by the library using itself.
 exclude = [".github", "tests/data.zip"]
 
+# See `Readme.md` on meaning.
+#
+# This pre-configured table ensures that other tools can read the information
+# to fetch the archive for us. For example, a packaging-tool such as Debian's
+# standard Rust tooling may automatically generate test deps and archives.
+#
+# Note: the `xtask` will be parsing this, *NOT* the xtest-data crate itself.
+# We merely define some standard options.
+[package.metadata.xtest-data]
+# Method for bundling the data, i.e. git object packs.
+pack-archive = "tar:gz"
+# URL template from which to fetch packed file during testing.
+pack-artifact = "{repository}/releases/download/v{version}/xtest-data.tar.gz"
+# Relative path to export data to, and expect pack objects in.
+pack-objects = "target/xtest-data-pack"
+
+
+[[bin]]
+path = "src/bin/xtask/main.rs"
+name = "cargo-xtest-data"
+required-features = ["bin-xtask"]
+
+
 [features]
 bin-xtask = [
   "dep:clap",
@@ -22,19 +45,15 @@ bin-xtask = [
   "dep:ureq",
 ]
 
-[[bin]]
-path = "src/bin/xtask/main.rs"
-name = "cargo-xtest-data"
-required-features = ["bin-xtask"]
 
 [dependencies.tinyjson]
 version = "2"
 [dependencies.fs2]
 version = "0.4.3"
 [dependencies.which]
-version = "4.2"
+version = "7"
 [dependencies.nanorand]
-version = "0.6.1"
+version = "0.7"
 default-features = false
 features = ["std", "tls", "wyrand"]
 
@@ -56,25 +75,10 @@ optional = true
 version = "0.8"
 optional = true
 [dependencies.ureq]
-version = "2.5"
+version = "3"
 optional = true
-
-# See `Readme.md` on meaning.
-#
-# This pre-configured table ensures that other tools can read the information
-# to fetch the archive for us. For example, a packaging-tool such as Debian's
-# standard Rust tooling may automatically generate test deps and archives.
-#
-# Note: the `xtask` will be parsing this, *NOT* the xtest-data crate itself.
-# We merely define some standard options.
-[package.metadata.xtest-data]
-# Method for archiving the pack data.
-pack-archive = "tar:gz"
-# URL template from which to fetch packed file during testing.
-pack-artifact = "{repository}/releases/download/v{version}/xtest-data.tar.gz"
-# Relative path to export data to, and expect pack objects in.
-pack-objects = "target/xtest-data-pack"
 
 
 [workspace]
 members = ["."]
+resolver = "2"
