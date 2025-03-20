@@ -18,32 +18,48 @@
 //! assert!(datazip.exists(), "{}", datazip.display());
 //! ```
 //!
+//! ¹The crate uses a directory to store a shallow clone of the source repository. Only integration
+//! tests have the environment variable that cargo uses to communicate a temporary directory within
+//! its `target` folder. That temporary directory is required for our choice.
+//!
+//! Configure meta data in your `Cargo.toml` according to the guide to inform packagers where they
+//! will find the test data. See the [Readme](crate::readme) in the sources for an example. When
+//! you're ready to deploy, let the xtest-data binary pack all necessary data files from your
+//! source tree:
+//!
+//! ```bash
+//! cargo xtest-data pack
+//! ```
+//!
+//! Make sure to upload the archive according to your published configuration!
+//!
 //! # For packagers
 //!
-//! The `.crate` file you have downloaded is a `.tar.gz` in disguise. When you unpack it for your
-//! local build steps etc., verify that this package contains `Cargo.toml.orig` as well as a
-//! `.cargo_vcs_info.json` file; and that the latter file has git commit information.
-//!
-//! Then you can then run the tests:
-//!
 //! ```bash
-//! cargo test -- --nocapture
+//! cargo install xtest-data --features=bin-xtask
 //! ```
 //!
-//! Don't worry, this won't access the network yet.  In the first step it will only verify the
-//! basic installation. It will then panic while printing information on what it _would have_ done
-//! and instructions on how to proceed. You can opt into allow network access by default with:
+//! Any `.crate` file you have downloaded is a `.tar.gz` in disguise. When you unpack it for your
+//! local build steps etc., you may verify that this package contains `Cargo.toml.orig` as well as
+//! a `.cargo_vcs_info.json` file; and that the latter file has git commit information.
+//!
+//! The binary orchestrates fetching a shallow pack of the requested data sources from the upstream
+//! repository, or consuming one from your local filesystem if you rather do the networking
+//! yourself. The basic structure you want is:
 //!
 //! ```bash
-//! CARGO_XTEST_DATA_FETCH=yes cargo test -- --nocapture
+//! cargo xtest-data test-crate /path/to/your.crate [--pack-artifact /path/to/pack-artifact]
 //! ```
-//!
-//! ¹We need a place to store a shallow clone of the crate's source repository.
 #![forbid(unsafe_code)]
 mod git;
 
 use std::{borrow::Cow, env, ffi::OsString, fs, io, path::Path, path::PathBuf};
 use tinyjson::JsonValue;
+
+#[cfg(doc)]
+/// Find the Readme and further documentation here, only present in the docs build.
+#[doc = include_str!("../Readme.md")]
+pub mod readme {}
 
 /// A file or tree that was registered from [`Setup`].
 ///
