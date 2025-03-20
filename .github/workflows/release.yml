@@ -19,7 +19,7 @@ jobs:
         save-if: false
     - name: Create test data
       run: >
-        mv "$(cargo run -p cargo-xtest-data -- xtest-data package)" "xtest-data.tar.gz"
+        mv "$(cargo run --bin cargo-xtest-data --features=bin-xtask -- xtest-data pack)" "xtest-data.tar.gz"
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "xtest-data.tar.gz"
