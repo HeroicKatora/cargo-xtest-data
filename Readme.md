@@ -21,7 +21,7 @@ Integrate this package as a dev-dependency into your tests.
 cargo add --dev xtest-data
 ```
 
-```rust
+```rust,ignore
 let mut path = PathBuf::from("tests/data.zip");
 xtest_data::setup!()
     .rewrite([&mut path])
@@ -88,7 +88,7 @@ the file system. The binary only does the job of orchestrating the file
 preparation and execution with the corresponding settings. First, create the
 self-contained git-object-pack collection with your test runs.
 
-```
+```bash
 CARGO_XTEST_DATA_PACK_OBJECTS="$(pwd)/target/xtest-data" cargo test
 zip xtest-data.zip -r target/xtest-data
 ```
@@ -98,7 +98,7 @@ for testing distributed packages with the test data as a separate archive. You
 can of course pack `target/xtest-data` in any other shape or form you prefer.
 When testing a crate archive reverse these steps:
 
-```
+```bash
 unzip xtest-data.zip
 CARGO_XTEST_DATA_PACK_OBJECTS="$(pwd)/target/xtest-data" cargo test
 ```
